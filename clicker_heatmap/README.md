@@ -9,7 +9,7 @@ A Python application that records mouse clicks and generates beautiful heatmap v
 Start the application:
 
 ```bash
-python main.py
+python main.py ```
 
 
 Choose Your Mode:
