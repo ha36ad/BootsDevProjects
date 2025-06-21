@@ -10,7 +10,7 @@ Start the application:
 
 ```bash
 python main.py
-
+```
 ## 🎛️ Choose Your Mode
 
 - **Manual Recording**  
