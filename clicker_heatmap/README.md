@@ -9,17 +9,23 @@ A Python application that records mouse clicks and generates beautiful heatmap v
 Start the application:
 
 ```bash
-python main.py ```
+python main.py
 
+## 🎛️ Choose Your Mode
 
-Choose Your Mode:
-Manual Recording: Interactive GUI for click data collection
-Sample Data: Pre-generated data for immediate visualization
-Custom Config: Personalized settings for specific use cases
+- **Manual Recording**  
+  Interactive GUI for click data collection.
 
+- **Sample Data**  
+  Use pre-generated data for immediate visualization.
 
-Record Clicks:
-Click anywhere on the gray canvas
-Watch the real-time counter update
-Use "Clear" to reset data
+- **Custom Config**  
+  Apply personalized settings for specific use cases.
 
+---
+
+## 🔴 Record Clicks
+
+1. Click anywhere on the gray canvas.
+2. Watch the real-time counter update.
+3. Use the **"Clear"** button to reset data.
