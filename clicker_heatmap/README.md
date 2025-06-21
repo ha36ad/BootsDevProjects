@@ -1,4 +1,4 @@
-Click Heatmap Generator 🖱️
+###Click Heatmap Generator 🖱️###
 A Python application that records mouse clicks and generates beautiful heatmap visualizations to analyze user interaction patterns.
 
 Basic Usage:
