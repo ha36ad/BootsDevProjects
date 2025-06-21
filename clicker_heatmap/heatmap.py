@@ -3,74 +3,49 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import tkinter as tk
 from tkinter import messagebox
+import random
 
 class ClickHeatmap:
-    """
-    A simple class to record mouse clicks and generate a heatmap.
-    """
-    
     def __init__(self, width=800, height=600, grid_size=20):
-        """
-        Initialize the ClickHeatmap.
-        
-        Args:
-            width: Canvas width in pixels
-            height: Canvas height in pixels
-            grid_size: Size of each grid cell for the heatmap
-        """
         self.width = width
         self.height = height
         self.grid_size = grid_size
         self.clicks = []
-        
         # Calculate grid dimensions
         self.grid_width = width // grid_size
         self.grid_height = height // grid_size
         
         # Initialize click grid
         self.click_grid = np.zeros((self.grid_height, self.grid_width))
-        
         # GUI components
         self.root = None
         self.canvas = None
-        
+    
+    # Click action
     def add_click(self, x, y):
-        """
-        Add a click at the given coordinates.
-        
-        Args:
-            x: X coordinate
-            y: Y coordinate
-        """
         if 0 <= x < self.width and 0 <= y < self.height:
             self.clicks.append((x, y))
-            
-            # Update grid
             grid_x = min(x // self.grid_size, self.grid_width - 1)
             grid_y = min(y // self.grid_size, self.grid_height - 1)
             self.click_grid[grid_y, grid_x] += 1
             
     def on_canvas_click(self, event):
-        """Handle canvas click events."""
-        self.add_click(event.x, event.y)
-        
+        self.add_click(event.x, event.y)   
         # Draw a small dot where clicked
         self.canvas.create_oval(
             event.x - 2, event.y - 2, 
             event.x + 2, event.y + 2, 
             fill='red', outline='red'
         )
-        
         # Update click counter
         self.update_status()
     
+    # Update the status label with click count.
     def update_status(self):
-        """Update the status label with click count."""
         if hasattr(self, 'status_label'):
             self.status_label.config(text=f"Clicks recorded: {len(self.clicks)}")
     
     def clear_clicks(self):
-        """Clear all recorded clicks."""
         self.clicks = []
         self.click_grid = np.zeros((self.grid_height, self.grid_width))
         if self.canvas:
@@ -78,23 +53,20 @@ class ClickHeatmap:
         self.update_status()
     
     def show_heatmap(self):
-        """Display the heatmap in a new window."""
         if len(self.clicks) == 0:
             messagebox.showwarning("No Data", "No clicks recorded yet!")
             return
-        
         # Create heatmap plot
         plt.figure(figsize=(12, 8))
-        
         # Use seaborn for a prettier heatmap
         sns.heatmap(
             self.click_grid, 
-            cmap='YlOrRd',  # Yellow-Orange-Red colormap
-            annot=False,    # Don't show numbers in cells
-            fmt='d',        # Integer format if annotations were shown
+            cmap='YlOrRd',  
+            annot=False,    
+            fmt='d',       
             cbar_kws={'label': 'Number of Clicks'},
-            square=False,   # Don't force square cells
-            linewidths=0.1, # Thin lines between cells
+            square=False,   
+            linewidths=0.1,
             linecolor='white'
         )
         
@@ -102,14 +74,13 @@ class ClickHeatmap:
         plt.xlabel(f'Grid X (each cell = {self.grid_size} pixels)', fontsize=12)
         plt.ylabel(f'Grid Y (each cell = {self.grid_size} pixels)', fontsize=12)
         
-        # Invert y-axis to match screen coordinates (seaborn does this automatically)
+        # Invert y-axis to match screen coordinates
         plt.gca().invert_yaxis()
         
         plt.tight_layout()
         plt.show()
     
     def start_recording(self):
-        """Start the GUI for recording clicks."""
         self.root = tk.Tk()
         self.root.title("Click Heatmap Recorder")
         self.root.resizable(False, False)
@@ -181,7 +152,6 @@ class ClickHeatmap:
         self.root.mainloop()
     
     def get_statistics(self):
-        """Get basic statistics about the clicks."""
         if not self.clicks:
             return {"total_clicks": 0}
         
@@ -199,26 +169,16 @@ class ClickHeatmap:
 
 
 class ClickSimulator:
-    """
-    A helper class to simulate clicks for demonstration purposes.
-    """
-    
     def __init__(self, heatmap):
         self.heatmap = heatmap
     
     def simulate_random_clicks(self, num_clicks=100):
-        """Simulate random clicks."""
-        import random
-        
         for _ in range(num_clicks):
             x = random.randint(0, self.heatmap.width - 1)
             y = random.randint(0, self.heatmap.height - 1)
             self.heatmap.add_click(x, y)
     
     def simulate_hotspot_clicks(self, num_clicks=200):
-        """Simulate clicks concentrated in certain areas."""
-        import random
-        
         # Define hotspots
         hotspots = [
             (self.heatmap.width // 4, self.heatmap.height // 4),
@@ -237,51 +197,3 @@ class ClickSimulator:
                           hotspot[1] + random.randint(-50, 50)))
             
             self.heatmap.add_click(x, y)
-
-
-def main():
-    """
-    Main function to run the click heatmap application.
-    """
-    print("Simple Click Heatmap Generator")
-    print("=" * 35)
-    
-    # Create heatmap instance
-    heatmap = ClickHeatmap(width=800, height=600, grid_size=25)
-    
-    # Ask user what they want to do
-    print("\nChoose an option:")
-    print("1. Record clicks manually (opens GUI)")
-    print("2. Generate sample data and show heatmap")
-    
-    choice = input("Enter choice (1 or 2): ").strip()
-    
-    if choice == "1":
-        print("\nStarting click recorder...")
-        print("A window will open where you can click to record data.")
-        heatmap.start_recording()
-        
-    elif choice == "2":
-        print("\nGenerating sample click data...")
-        
-        # Create simulator and generate data
-        simulator = ClickSimulator(heatmap)
-        simulator.simulate_hotspot_clicks(150)
-        simulator.simulate_random_clicks(50)
-        
-        # Show statistics
-        stats = heatmap.get_statistics()
-        print(f"\nGenerated {stats['total_clicks']} clicks")
-        print(f"Average position: ({stats['avg_x']:.1f}, {stats['avg_y']:.1f})")
-        print(f"Max clicks in single cell: {stats['max_clicks_in_cell']}")
-        
-        # Show heatmap
-        print("\nDisplaying heatmap...")
-        heatmap.show_heatmap()
-        
-    else:
-        print("Invalid choice. Run the program again.")
-
-
-if __name__ == "__main__":
-    main()
