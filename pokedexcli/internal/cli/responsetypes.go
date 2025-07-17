@@ -19,24 +19,24 @@ type exploreAreaResponse struct {
 }
 
 type pokemonResponse struct {
-	ID                     int                    `json:"id"`
-	Name                   string                 `json:"name"`
-	BaseExperience         int                    `json:"base_experience"`
-	Height                 int                    `json:"height"`
-	Weight                 int                    `json:"weight"`
-	Types                  []pokemonTypeSlot      `json:"types"`
-	Stats                  []pokemonStat          `json:"stats"`
-	Abilities              []pokemonAbility       `json:"abilities"`
-	Forms                  []namedAPIResource     `json:"forms"`
-	GameIndices            []gameIndex            `json:"game_indices"`
-	HeldItems              []heldItem             `json:"held_items"`
-	LocationAreaEncounters string                 `json:"location_area_encounters"`
-	Moves                  []pokemonMove          `json:"moves"`
-	Species                namedAPIResource       `json:"species"`
-	Sprites                map[string]interface{} `json:"sprites"`
-	Cries                  map[string]string      `json:"cries"`
-	PastTypes              []pastType             `json:"past_types"`
-	PastAbilities          []pastAbility          `json:"past_abilities"`
+	ID                     int                `json:"id"`
+	Name                   string             `json:"name"`
+	BaseExperience         int                `json:"base_experience"`
+	Height                 int                `json:"height"`
+	Weight                 int                `json:"weight"`
+	Types                  []pokemonTypeSlot  `json:"types"`
+	Stats                  []pokemonStat      `json:"stats"`
+	Abilities              []pokemonAbility   `json:"abilities"`
+	Forms                  []namedAPIResource `json:"forms"`
+	GameIndices            []gameIndex        `json:"game_indices"`
+	HeldItems              []heldItem         `json:"held_items"`
+	LocationAreaEncounters string             `json:"location_area_encounters"`
+	Moves                  []pokemonMove      `json:"moves"`
+	Species                namedAPIResource   `json:"species"`
+	Sprites                map[string]any     `json:"sprites"`
+	Cries                  map[string]string  `json:"cries"`
+	PastTypes              []pastType         `json:"past_types"`
+	PastAbilities          []pastAbility      `json:"past_abilities"`
 }
 
 type pokemonTypeSlot struct {
